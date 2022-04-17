@@ -1,4 +1,6 @@
+// @ts-ignore
 import { baseURL } from './config';
+// @ts-ignore
 import axios from "../axios";
 
 export function queryConfig() {
