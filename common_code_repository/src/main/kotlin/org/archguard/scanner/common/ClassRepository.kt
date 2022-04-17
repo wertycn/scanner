@@ -13,8 +13,7 @@ private const val DEFAULT_MODULE_NAME = "root"
 private const val THIRD_PARTY = "root"
 
 class ClassRepository(systemId: String, language: String, workspace: String) {
-    private val batch: SourceBatch =
-        SourceBatch()
+    private val batch: SourceBatch = SourceBatch()
     private val count = AtomicInteger(0)
     private val batchStep = 100
     private val systemId: String
@@ -78,6 +77,11 @@ class ClassRepository(systemId: String, language: String, workspace: String) {
         for (function in functions) {
             val mId = findMethodIdByClzName(function, clzName, function.Name, pkgName)?.orElse("") ?: continue
             for (call in function.FunctionCalls) {
+                // not a correct NodeName
+                if(call.NodeName.contains("\"") || call.NodeName.contains("'")) {
+                    continue
+                }
+
                 saveMethodCall(mId, call, moduleName, clzName, call.Package)
             }
         }
@@ -430,7 +434,7 @@ class ClassRepository(systemId: String, language: String, workspace: String) {
             val time: String = currentTime
             val values: MutableMap<String, String> = HashMap()
 
-            val name = field.TypeValue
+            val name = field.TypeKey
             // for TypeScript
             if (isJs()) {
                 if (!FIELD_NAME.matches(name)) {

@@ -43,7 +43,7 @@ public class SqlGenerator {
         }
 
         sb.append(valuesBuf.substring(1));
-        return sb.toString();
+        return sb.toString().replaceAll(System.lineSeparator(), "");
     }
 
     public static String generateWhere(Map<String, String> keys) {

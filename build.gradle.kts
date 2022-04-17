@@ -27,7 +27,7 @@ allprojects {
         implementation(kotlin("stdlib"))
 
         // log
-        implementation("org.slf4j:slf4j-jdk14:1.7.36")
+        implementation("io.github.microutils:kotlin-logging:2.1.21")
 
         // test
         implementation(kotlin("test"))
@@ -84,6 +84,8 @@ dependencies {
     jacocoAggregation(project(":diff_changes"))
 
     jacocoAggregation(project(":common_code_repository"))
+
+    jacocoAggregation(project(":rule_core"))
 
     jacocoAggregation(project(":scan_git"))
     jacocoAggregation(project(":scan_jacoco"))
