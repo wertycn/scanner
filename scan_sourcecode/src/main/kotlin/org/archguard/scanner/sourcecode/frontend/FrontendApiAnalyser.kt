@@ -8,8 +8,8 @@ import chapi.domain.core.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.archguard.scanner.common.container.ContainerDemand
-import org.archguard.scanner.common.container.ContainerService
+import org.archguard.scanner.common.container.HttpContainerDemand
+import org.archguard.scanner.common.container.HttpContainerService
 import java.io.File
 
 @Serializable
@@ -42,7 +42,7 @@ class FrontendApiAnalyser {
     // 1. first create Component with FunctionCall maps based on Import
     // 2. build axios/umi-request to an API call method
     // 3. mapping for results
-    fun analysisByPath(nodes: Array<CodeDataStruct>, workspace: String): Array<ContainerService> {
+    fun analysisByPath(nodes: Array<CodeDataStruct>, workspace: String): Array<HttpContainerService> {
         nodes.forEach { node ->
             analysisByNode(node, workspace)
         }
@@ -100,12 +100,12 @@ class FrontendApiAnalyser {
 
     class LoopDepth(var index: Int)
 
-    fun toContainerServices(): Array<ContainerService> {
+    fun toContainerServices(): Array<HttpContainerService> {
         File("component.inbounds.json").writeText(Json.encodeToString(componentInbounds))
-        var componentCalls: Array<ContainerService> = arrayOf()
+        var componentCalls: Array<HttpContainerService> = arrayOf()
 
         componentInbounds.forEach { inbound ->
-            val componentRef = ContainerService(name = inbound.key)
+            val componentRef = HttpContainerService(name = inbound.key)
             inbound.value.forEach {
                 // TODO: add support for multiple level call routes
                 if (httpAdapterMap[it] != null) {
@@ -124,7 +124,7 @@ class FrontendApiAnalyser {
     }
 
     private val DEFAULT_LOOP_API_CALL_DEPTH = 3
-    private fun lookupSource(methodName: String, componentRef: ContainerService, loopDepth: LoopDepth) {
+    private fun lookupSource(methodName: String, componentRef: HttpContainerService, loopDepth: LoopDepth) {
         if (loopDepth.index > DEFAULT_LOOP_API_CALL_DEPTH) {
             return
         }
@@ -145,10 +145,10 @@ class FrontendApiAnalyser {
     private fun createHttpApi(
         name: String,
         routes: List<String>
-    ): ContainerDemand {
+    ): HttpContainerDemand {
         val call = httpAdapterMap[name]!!
 
-        var httpApi = ContainerDemand()
+        var httpApi = HttpContainerDemand()
         when (call.ApiType) {
             "axios" -> {
                 httpApi = axiosIdent.convert(call)

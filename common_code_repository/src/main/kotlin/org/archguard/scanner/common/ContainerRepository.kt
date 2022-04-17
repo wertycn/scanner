@@ -1,8 +1,8 @@
 package org.archguard.scanner.common
 
-import org.archguard.scanner.common.container.ContainerDemand
-import org.archguard.scanner.common.container.ContainerResource
-import org.archguard.scanner.common.container.ContainerService
+import org.archguard.scanner.common.container.HttpContainerDemand
+import org.archguard.scanner.common.container.HttpContainerResource
+import org.archguard.scanner.common.container.HttpContainerService
 import com.thoughtworks.archguard.infrastructure.SourceBatch
 import org.archguard.scanner.common.RepositoryHelper.currentTime
 import org.archguard.scanner.common.RepositoryHelper.generateId
@@ -20,7 +20,7 @@ class ContainerRepository(systemId: String, language: String, workspace: String)
         this.workspace = workspace
     }
 
-    fun saveContainerServices(services: Array<ContainerService>) {
+    fun saveContainerServices(services: Array<HttpContainerService>) {
         val serviceId = saveMainServices()
         services.forEach { caller ->
             caller.demands.map { saveDemand(it, serviceId, caller.name) }.toTypedArray()
@@ -53,7 +53,7 @@ class ContainerRepository(systemId: String, language: String, workspace: String)
     }
 
 
-    private fun saveResource(it: ContainerResource, serviceId: String, name: String): String {
+    private fun saveResource(it: HttpContainerResource, serviceId: String, name: String): String {
         val time: String = currentTime
         val resourceId = generateId()
         val values: MutableMap<String, String> = HashMap()
@@ -78,7 +78,7 @@ class ContainerRepository(systemId: String, language: String, workspace: String)
     }
 
 
-    private fun saveDemand(demand: ContainerDemand, serviceId: String, name: String): String {
+    private fun saveDemand(demand: HttpContainerDemand, serviceId: String, name: String): String {
         val time: String = currentTime
         val demandId = generateId()
         val values: MutableMap<String, String> = HashMap()

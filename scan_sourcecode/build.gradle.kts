@@ -32,8 +32,8 @@ dependencies {
 
     implementation("org.jdbi:jdbi3-core:3.8.2")
 
-    implementation("com.phodal.chapi:chapi-application:1.5.6")
-    implementation("com.phodal.chapi:chapi-domain:1.5.6")
+    implementation("com.phodal.chapi:chapi-application:1.5.7")
+    implementation("com.phodal.chapi:chapi-domain:1.5.7")
 }
 
 application {

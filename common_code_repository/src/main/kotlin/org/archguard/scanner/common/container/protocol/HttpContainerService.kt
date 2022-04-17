@@ -3,15 +3,15 @@ package org.archguard.scanner.common.container
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DubboContainerService(
+data class HttpContainerService(
     // component name, only if is a component
     var name: String = "",
-    var demands: List<DubboConsumer> = listOf(),
-    var resources: List<DubboProider> = listOf()
+    var demands: List<HttpContainerDemand> = listOf(),
+    var resources: List<HttpContainerResource> = listOf()
 )
 
 @Serializable
-data class DubboConsumer(
+data class HttpContainerDemand(
     var source_caller: String = "",
     var call_routes: List<String> = listOf(),
     var base: String = "",
@@ -21,7 +21,7 @@ data class DubboConsumer(
 )
 
 @Serializable
-data class DubboProider(
+data class HttpContainerResource(
     var sourceUrl: String = "",
     var sourceHttpMethod: String = "",
     var packageName: String = "",

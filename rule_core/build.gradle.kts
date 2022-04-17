@@ -4,6 +4,6 @@ plugins {
 }
 
 dependencies {
-    implementation("com.phodal.chapi:chapi-domain:1.5.6")
+    implementation("com.phodal.chapi:chapi-domain:1.5.7")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 }

@@ -29,16 +29,7 @@ import org.springframework.stereotype.Component;
 @Component("annotationAction")
 public class AnnotationAction {
 
-    @DubboReference(interfaceClass = HelloService.class, version = AnnotationConstants.VERSION /*,
-            methods = {
-                    @Method(
-                            name = "sayHello",
-                            oninvoke = "notify.oninvoke",
-                            onreturn = "notify.onreturn",
-                            onthrow = "notify.onthrow")
-            }
-             */
-    )
+    @DubboReference(interfaceClass = HelloService.class, version = AnnotationConstants.VERSION)
     private HelloService helloService;
 
     @DubboReference(interfaceClass = GreetingService.class,

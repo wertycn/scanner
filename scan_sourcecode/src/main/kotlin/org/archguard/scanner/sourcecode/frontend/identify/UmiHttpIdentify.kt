@@ -1,6 +1,6 @@
 package org.archguard.scanner.sourcecode.frontend.identify
 
-import org.archguard.scanner.common.container.ContainerDemand
+import org.archguard.scanner.common.container.HttpContainerDemand
 import chapi.domain.core.CodeCall
 import chapi.domain.core.CodeImport
 
@@ -18,9 +18,9 @@ class UmiHttpIdentify : HttpIdentify {
         return false
     }
 
-    override fun convert(call: CodeCall): ContainerDemand {
+    override fun convert(call: CodeCall): HttpContainerDemand {
         val url = call.Parameters[0].TypeValue
-        val httpApi = ContainerDemand(target_url = url)
+        val httpApi = HttpContainerDemand(target_url = url)
 
         for (codeProperty in call.Parameters[1].ObjectValue) {
             when (codeProperty.TypeValue) {

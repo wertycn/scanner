@@ -3,7 +3,7 @@ package org.archguard.scanner.sourcecode.frontend
 import chapi.app.analyser.TypeScriptAnalyserApp
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import org.archguard.scanner.common.container.ContainerService
+import org.archguard.scanner.common.container.HttpContainerService
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -18,7 +18,7 @@ internal class FrontendApiAnalyserTest {
         val nodes = TypeScriptAnalyserApp().analysisNodeByPath(path)
         assertEquals(5, nodes.size)
 
-        val componentCalls: Array<ContainerService> = FrontendApiAnalyser().analysisByPath(nodes, path)
+        val componentCalls: Array<HttpContainerService> = FrontendApiAnalyser().analysisByPath(nodes, path)
         File("api.json").writeText(Json.encodeToString(componentCalls))
 
         assertEquals(1, componentCalls.size)
@@ -40,7 +40,7 @@ internal class FrontendApiAnalyserTest {
         val nodes = TypeScriptAnalyserApp().analysisNodeByPath(path)
         File("nodes.json").writeText(Json.encodeToString(nodes))
 
-        val componentCalls: Array<ContainerService> = FrontendApiAnalyser().analysisByPath(nodes, path)
+        val componentCalls: Array<HttpContainerService> = FrontendApiAnalyser().analysisByPath(nodes, path)
         File("api.json").writeText(Json.encodeToString(componentCalls))
     }
 
@@ -51,7 +51,7 @@ internal class FrontendApiAnalyserTest {
 
         val nodes = TypeScriptAnalyserApp().analysisNodeByPath(path)
 
-        val componentCalls: Array<ContainerService> = FrontendApiAnalyser().analysisByPath(nodes, path)
+        val componentCalls: Array<HttpContainerService> = FrontendApiAnalyser().analysisByPath(nodes, path)
         assertEquals(4, componentCalls[0].demands.size)
     }
 
@@ -64,7 +64,7 @@ internal class FrontendApiAnalyserTest {
         assertEquals(2, nodes.size)
         File("nodes.json").writeText(Json.encodeToString(nodes))
 
-        val componentCalls: Array<ContainerService> = FrontendApiAnalyser().analysisByPath(nodes, path)
+        val componentCalls: Array<HttpContainerService> = FrontendApiAnalyser().analysisByPath(nodes, path)
         val apiRef = componentCalls[0].demands
 
         assertEquals(1, apiRef.size)

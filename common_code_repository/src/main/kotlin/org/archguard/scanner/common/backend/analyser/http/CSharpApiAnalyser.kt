@@ -1,12 +1,12 @@
-package org.archguard.scanner.common.backend
+package org.archguard.scanner.common.backend.analyser.http
 
 import chapi.domain.core.CodeDataStruct
 import chapi.domain.core.CodeFunction
-import org.archguard.scanner.common.container.ContainerResource
-import org.archguard.scanner.common.container.ContainerService
+import org.archguard.scanner.common.container.HttpContainerResource
+import org.archguard.scanner.common.container.HttpContainerService
 
 class CSharpApiAnalyser {
-    var resources: List<ContainerResource> = listOf()
+    var resources: List<HttpContainerResource> = listOf()
 
     fun analysisByNode(node: CodeDataStruct, _workspace: String) {
         val routeAnnotation = node.filterAnnotations("RoutePrefix", "Route")
@@ -40,7 +40,7 @@ class CSharpApiAnalyser {
                 route = "/${route}"
             }
 
-            resources = resources + ContainerResource(
+            resources = resources + HttpContainerResource(
                 sourceUrl = route,
                 sourceHttpMethod = httpMethod,
                 packageName = node.Package,
@@ -50,10 +50,10 @@ class CSharpApiAnalyser {
         }
     }
 
-    fun toContainerServices(): Array<ContainerService> {
-        var componentCalls: Array<ContainerService> = arrayOf()
+    fun toContainerServices(): Array<HttpContainerService> {
+        var componentCalls: Array<HttpContainerService> = arrayOf()
 
-        val componentRef = ContainerService(name = "")
+        val componentRef = HttpContainerService(name = "")
         componentRef.resources = this.resources
 
         componentCalls += componentRef

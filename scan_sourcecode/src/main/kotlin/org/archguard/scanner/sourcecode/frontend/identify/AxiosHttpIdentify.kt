@@ -1,6 +1,6 @@
 package org.archguard.scanner.sourcecode.frontend.identify
 
-import org.archguard.scanner.common.container.ContainerDemand
+import org.archguard.scanner.common.container.HttpContainerDemand
 import chapi.domain.core.CodeCall
 import chapi.domain.core.CodeImport
 
@@ -15,8 +15,8 @@ open class AxiosHttpIdentify : HttpIdentify {
         return false
     }
 
-    override fun convert(call: CodeCall): ContainerDemand {
-        val httpApi = ContainerDemand()
+    override fun convert(call: CodeCall): HttpContainerDemand {
+        val httpApi = HttpContainerDemand()
         call.Parameters.forEach { prop ->
             for (codeProperty in prop.ObjectValue) {
                 when (codeProperty.TypeValue) {

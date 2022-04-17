@@ -2,7 +2,7 @@ package org.archguard.scanner.sourcecode.backend
 
 import chapi.app.analyser.JavaAnalyserApp
 import chapi.domain.core.CodeDataStruct
-import org.archguard.scanner.common.backend.JavaDubboAnalyser
+import org.archguard.scanner.common.backend.analyser.dubbo.JavaDubboAnalyser
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -40,12 +40,12 @@ internal class JavaDubboAnalyserTest {
     @Test
     fun testParseDubboConsumer() {
         val nodes = analyserSourceCode("protocol/dubbo/annotation/AnnotationAction.java")
-        val javaApiAnalyser = JavaDubboAnalyser()
+        val javaDubboAnalyser = JavaDubboAnalyser()
 
         nodes.forEach {
-            javaApiAnalyser.analysisByNode(it, "")
+            javaDubboAnalyser.analysisByNode(it, "")
         }
-        val services = javaApiAnalyser.toContainerServices()
+        val services = javaDubboAnalyser.toContainerServices()
         val demands = services[0].demands
         assertEquals(4, demands.size)
         var consumerList = listOf<String>()

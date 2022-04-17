@@ -1,14 +1,14 @@
-package org.archguard.scanner.common.backend
+package org.archguard.scanner.common.backend.analyser.http
 
 import chapi.domain.core.CodeDataStruct
 import chapi.domain.core.CodeFunction
-import org.archguard.scanner.common.container.ContainerDemand
-import org.archguard.scanner.common.container.ContainerResource
-import org.archguard.scanner.common.container.ContainerService
+import org.archguard.scanner.common.container.HttpContainerDemand
+import org.archguard.scanner.common.container.HttpContainerResource
+import org.archguard.scanner.common.container.HttpContainerService
 
 class JavaApiAnalyser {
-    var demands: List<ContainerDemand> = listOf()
-    var resources: List<ContainerResource> = listOf()
+    var demands: List<HttpContainerDemand> = listOf()
+    var resources: List<HttpContainerResource> = listOf()
 
     fun analysisByNode(node: CodeDataStruct, _workspace: String) {
         val routeAnnotation = node.filterAnnotations("RestController", "Controller", "RequestMapping")
@@ -60,7 +60,7 @@ class JavaApiAnalyser {
                 }
 
                 if (method.isNotEmpty()) {
-                    demands = demands + ContainerDemand(
+                    demands = demands + HttpContainerDemand(
                         source_caller = node.NodeName,
                         target_url = url,
                         target_http_method = method
@@ -127,7 +127,7 @@ class JavaApiAnalyser {
 
             route.replace("//", "/")
 
-            resources = resources + ContainerResource(
+            resources = resources + HttpContainerResource(
                 sourceUrl = route,
                 sourceHttpMethod = httpMethod,
                 packageName = node.Package,
@@ -137,10 +137,10 @@ class JavaApiAnalyser {
         }
     }
 
-    fun toContainerServices(): Array<ContainerService> {
-        var componentCalls: Array<ContainerService> = arrayOf()
+    fun toContainerServices(): Array<HttpContainerService> {
+        var componentCalls: Array<HttpContainerService> = arrayOf()
 
-        val componentRef = ContainerService(name = "")
+        val componentRef = HttpContainerService(name = "")
         componentRef.resources = this.resources
         componentRef.demands = this.demands
 
